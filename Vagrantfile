@@ -70,6 +70,8 @@ Vagrant.configure("2") do |config|
         target.vm.guest = :windows
         target.vm.communicator = "winrm"
         target.vm.provision :shell, :path => "./Scripts/windows/Install-WMF3Hotfix.ps1", privileged: false
+        target.vm.provision :shell, :path => "./Scripts/windows/Add-User-Mal.ps1", privileged: true
+        target.vm.provision :shell, :path => "./Scripts/windows/ReArm.ps1", privileged: true
 
         # fix ip for vmware
         if ENV['VAGRANT_DEFAULT_PROVIDER'] == "vmware_desktop"
