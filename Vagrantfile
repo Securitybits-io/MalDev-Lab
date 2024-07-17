@@ -51,6 +51,7 @@ Vagrant.configure("2") do |config|
       # BOX
       target.vm.provider "virtualbox" do |v|
         v.name = box[:name]
+        v.customize ["modifyvm", :id, "--groups", "/Malware Development"]
       end
       target.vm.box_download_insecure = box[:box]
       target.vm.box = box[:box]
