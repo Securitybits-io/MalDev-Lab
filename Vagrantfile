@@ -1,5 +1,10 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+# https://github.com/rgl/customize-windows-vagrant
+## TODO
+# Make disk resize scripts
+# Set keyboard layout
+# Make Kali Ansible provisioning
 
 # C2-Kali Kali-rolling C2 server
 # Mal@Dev commando Development
@@ -61,6 +66,7 @@ Vagrant.configure("2") do |config|
 
       # issues/49
       target.vm.synced_folder '.', '/Scripts', disabled: true
+      target.vm.synced_folder 'Shared', '/Shared', disabled: false
 
       # IP
       target.vm.network :private_network, ip: box[:ip]
@@ -70,8 +76,9 @@ Vagrant.configure("2") do |config|
         target.vm.guest = :windows
         target.vm.communicator = "winrm"
         target.vm.provision :shell, :path => "./Scripts/windows/Install-WMF3Hotfix.ps1", privileged: false
-        target.vm.provision :shell, :path => "./Scripts/windows/Add-User-Mal.ps1", privileged: true
+        #target.vm.provision :shell, :path => "./Scripts/windows/Add-User-Mal.ps1", privileged: true
         target.vm.provision :shell, :path => "./Scripts/windows/ReArm.ps1", privileged: true
+        target.vm.provision :shell, :path => "./Scripts/windows/Set-Locale.ps1", privileged: true
 
         # fix ip for vmware
         if ENV['VAGRANT_DEFAULT_PROVIDER'] == "vmware_desktop"
