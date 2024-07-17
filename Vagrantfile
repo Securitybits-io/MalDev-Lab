@@ -16,10 +16,10 @@ Vagrant.configure("2") do |config|
   ENV['VAGRANT_DEFAULT_PROVIDER'] = 'virtualbox'
   
   boxes = [
-    { :name => "C2",    :ip => "192.168.56.30", :box => "kalilinux/rolling", :box_version => "2024.2.0" :os => "linux"},
-    { :name => "Dev",   :ip => "192.168.56.31", :box => "mayfly/windows_server2019",                    :os => "windows"},
-    { :name => "Rev",   :ip => "192.168.56.32", :box => "mayfly/windows_server2019",                    :os => "windows"},
-    { :name => "Ware",  :ip => "192.168.56.40", :box => "mayfly/windows10",                             :os => "windows"}
+    { :name => "C2",    :ip => "192.168.56.30", :box => "kalilinux/rolling", :box_version => "2024.2.0", :os => "linux"},
+    { :name => "Dev",   :ip => "192.168.56.31", :box => "mayfly/windows_server2019",                     :os => "windows"},
+    { :name => "Rev",   :ip => "192.168.56.32", :box => "mayfly/windows_server2019",                     :os => "windows"},
+    { :name => "Ware",  :ip => "192.168.56.40", :box => "mayfly/windows10",                              :os => "windows"}
   ]
 
   config.vm.provider "virtualbox" do |v|
