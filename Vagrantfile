@@ -95,7 +95,7 @@ Vagrant.configure("2") do |config|
       end
       
       if box.has_key?(:size)
-        target.disksize.size = box[:size]
+        target.vm.disk :disk, size: box[:size], primary: true
         if box[:os] == "windows"
           target.vm.provision :shell, :path => "./Scripts/windows/Resize-Primary.ps1"
         end
