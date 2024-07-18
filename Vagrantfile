@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
   
   boxes = [
     { :name => "C2",      :ip => "192.168.56.130", :box => "kalilinux/rolling",          :os => "linux"},
-    { :name => "Dev",     :ip => "192.168.56.131", :box => "mayfly/windows_server2019",  :os => "windows"},
+    { :name => "Dev",     :ip => "192.168.56.131", :box => "mayfly/windows_server2019",  :os => "windows", :size => "80GB"},
     #{ :name => "Rev",     :ip => "192.168.56.132", :box => "mayfly/windows_server2019",  :os => "windows"},
     { :name => "Victim",  :ip => "192.168.56.140", :box => "mayfly/windows10",           :os => "windows"}
   ]
@@ -44,6 +44,11 @@ Vagrant.configure("2") do |config|
   # no autoupdate if vagrant-vbguest is installed
   if Vagrant.has_plugin?("vagrant-vbguest") then
     config.vbguest.auto_update = false
+  end
+
+  unless Vagrant.has_plugin?("vagrant-reload")
+    puts 'Installing vagrant-reload Plugin...'
+    system('vagrant plugin install vagrant-reload')
   end
 
   config.vm.boot_timeout = 600
@@ -79,7 +84,7 @@ Vagrant.configure("2") do |config|
         #target.vm.provision :shell, :path => "./Scripts/windows/Add-User-Mal.ps1", privileged: true
         target.vm.provision :shell, :path => "./Scripts/windows/ReArm.ps1", privileged: true
         target.vm.provision :shell, :path => "./Scripts/windows/Set-Locale.ps1", privileged: true
-
+        
         # fix ip for vmware
         if ENV['VAGRANT_DEFAULT_PROVIDER'] == "vmware_desktop"
           target.vm.provision :shell, :path => "./Scripts/windows/fix_ip.ps1", privileged: false, args: box[:ip]
@@ -88,7 +93,16 @@ Vagrant.configure("2") do |config|
       else
         target.vm.communicator = "ssh"
       end
-
+      
+      if box.has_key?(:size)
+        target.disksize.size = box[:size]
+        if box[:os] == "windows"
+          target.vm.provision :shell, :path => "./Scripts/windows/Resize-Primary.ps1"
+        end
+        # else
+        #   pass
+      end
+      
       if box.has_key?(:forwarded_port)
         # forwarded port explicit
         box[:forwarded_port] do |forwarded_port|
@@ -96,6 +110,7 @@ Vagrant.configure("2") do |config|
         end
       end
 
+      target.vm.provision :reload
     end
   end
 end
