@@ -80,7 +80,7 @@ Vagrant.configure("2") do |config|
       if box[:os] == "windows"
         target.vm.guest = :windows
         target.vm.communicator = "winrm"
-        target.winrm.port = box[:forwarded_port[:host]]
+        target.winrm.port = box[:forwarded_port[0][:host]]
         target.vm.provision :shell, :path => "./Scripts/windows/Install-WMF3Hotfix.ps1", privileged: false
         #target.vm.provision :shell, :path => "./Scripts/windows/Add-User-Mal.ps1", privileged: true
         target.vm.provision :shell, :path => "./Scripts/windows/ReArm.ps1", privileged: true
