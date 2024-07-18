@@ -92,6 +92,15 @@ Vagrant.configure("2") do |config|
 
       else
         target.vm.communicator = "ssh"
+        target.vm.synced_folder '.', '/vagrant', disabled: false
+        target.vm.provision "shell", path: "./Scripts/linux/provision/provision.sh", :args => "--keyboard=se"
+        
+        target.vm.provision "ansible_local" do |ansible|
+            ansible.playbook = "./Scripts/linux/playbook.yml"
+            ansible.extra_vars = "./Scripts/linux/vars.yml"
+        end
+        
+        target.vm.provision :reload
       end
       
       if box.has_key?(:size)
