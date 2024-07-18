@@ -99,8 +99,6 @@ Vagrant.configure("2") do |config|
             ansible.playbook = "./Scripts/linux/playbook.yml"
             ansible.extra_vars = "./Scripts/linux/vars.yml"
         end
-        
-        target.vm.provision :reload
       end
       
       if box.has_key?(:size)
