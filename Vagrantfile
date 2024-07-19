@@ -2,14 +2,11 @@
 # vi: set ft=ruby :
 # https://github.com/rgl/customize-windows-vagrant
 ## TODO
-# Make disk resize scripts
-# Set keyboard layout
-# Make Kali Ansible provisioning
 
 # C2-Kali Kali-rolling C2 server
-# Mal@Dev commando Development
-# Mal@Rev commando Reverse
-# Mal@Ware commando Victim
+# vagrant@Dev commando Development
+# vagrant@Rev commando Reverse
+# vagrant@Ware commando Victim
 
 # kalilinux/rolling                    (virtualbox, 2024.2.0, (amd64))
 # mayfly/windows_server2019            (virtualbox, 2023.10.19)
@@ -23,18 +20,18 @@ Vagrant.configure("2") do |config|
   boxes = [
     { :name => "C2",      :ip => "192.168.56.130", :box => "kalilinux/rolling",          :os => "linux"},
     { :name => "Dev",     :ip => "192.168.56.131", :box => "mayfly/windows_server2019",  :os => "windows", :size => "80GB" },
-    #{ :name => "Rev",     :ip => "192.168.56.132", :box => "mayfly/windows_server2019",  :os => "windows", :size => "80GB" },
+    { :name => "Rev",     :ip => "192.168.56.132", :box => "mayfly/windows_server2019",  :os => "windows", :size => "80GB" },
     { :name => "Victim",  :ip => "192.168.56.140", :box => "mayfly/windows10",           :os => "windows" }
   ]
 
   config.vm.provider "virtualbox" do |v|
     v.memory = 4000
-    v.cpus = 2
+    v.cpus = 4
   end
 
   config.vm.provider "vmware_desktop" do |v|
     v.vmx["memsize"] = "4000"
-    v.vmx["numvcpus"] = "2"
+    v.vmx["numvcpus"] = "4"
   end
 
   # disable forwarded port
