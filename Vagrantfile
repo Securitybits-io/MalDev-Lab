@@ -22,9 +22,9 @@ Vagrant.configure("2") do |config|
   
   boxes = [
     { :name => "C2",      :ip => "192.168.56.130", :box => "kalilinux/rolling",          :os => "linux"},
-    { :name => "Dev",     :ip => "192.168.56.131", :box => "mayfly/windows_server2019",  :os => "windows", :size => "80GB", :forwarded_port => [{:guest => 5985, :host => 15985, :id => "winrm"}]},
+    { :name => "Dev",     :ip => "192.168.56.131", :box => "mayfly/windows_server2019",  :os => "windows", :size => "80GB" },
     #{ :name => "Rev",     :ip => "192.168.56.132", :box => "mayfly/windows_server2019",  :os => "windows"},
-    { :name => "Victim",  :ip => "192.168.56.140", :box => "mayfly/windows10",           :os => "windows", :forwarded_port => [{:guest => 5985, :host => 25985, :id => "winrm"}]}
+    { :name => "Victim",  :ip => "192.168.56.140", :box => "mayfly/windows10",           :os => "windows" }
   ]
 
   config.vm.provider "virtualbox" do |v|
@@ -41,6 +41,8 @@ Vagrant.configure("2") do |config|
   config.vm.network "forwarded_port", guest: 3389, host: 3389, id: 'rdp', auto_correct: true, disabled: true
   config.vm.network "forwarded_port", guest: 22, host: 2222, id: 'ssh', auto_correct: true, disabled: false
 
+  config.vm.usable_port_range = 5000..5500
+
   # no autoupdate if vagrant-vbguest is installed
   if Vagrant.has_plugin?("vagrant-vbguest") then
     config.vbguest.auto_update = false
@@ -55,7 +57,7 @@ Vagrant.configure("2") do |config|
   config.vm.graceful_halt_timeout = 600
   config.winrm.retry_limit = 30
   config.winrm.retry_delay = 10
-
+  
   boxes.each do |box|
     config.vm.define box[:name] do |target|
       # BOX
@@ -80,10 +82,7 @@ Vagrant.configure("2") do |config|
       if box[:os] == "windows"
         target.vm.guest = :windows
         target.vm.communicator = "winrm"
-        
-        target.winrm.host = "127.0.0.1"
-        target.winrm.port = "25985"
-        
+                
         target.vm.provision :shell, :path => "./Scripts/windows/Install-WMF3Hotfix.ps1", privileged: false
         #target.vm.provision :shell, :path => "./Scripts/windows/Add-User-Mal.ps1", privileged: true
         target.vm.provision :shell, :path => "./Scripts/windows/ReArm.ps1", privileged: true
