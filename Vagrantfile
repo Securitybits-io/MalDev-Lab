@@ -19,8 +19,8 @@ Vagrant.configure("2") do |config|
   
   boxes = [
     { :name => "C2",      :ip => "192.168.56.130", :box => "kalilinux/rolling",          :os => "linux"},
-    { :name => "Dev",     :ip => "192.168.56.131", :box => "mayfly/windows_server2019",  :os => "windows", :size => "80GB" },
-    { :name => "Rev",     :ip => "192.168.56.132", :box => "mayfly/windows_server2019",  :os => "windows", :size => "80GB" },
+    { :name => "Dev",     :ip => "192.168.56.131", :box => "mayfly/windows10",           :os => "windows", :size => "80GB" },
+    #{ :name => "Rev",     :ip => "192.168.56.132", :box => "mayfly/windows_server2019",  :os => "windows", :size => "80GB" },
     { :name => "Victim",  :ip => "192.168.56.140", :box => "mayfly/windows10",           :os => "windows" }
   ]
 
