@@ -1,7 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 # https://github.com/rgl/customize-windows-vagrant
-## TODO
 
 # C2-Kali Kali-rolling C2 server
 # vagrant@Dev commando Development
@@ -20,7 +19,7 @@ Vagrant.configure("2") do |config|
   boxes = [
     { :name => "C2",      :ip => "192.168.56.130", :box => "kalilinux/rolling",          :os => "linux"},
     { :name => "Dev",     :ip => "192.168.56.131", :box => "mayfly/windows10",           :os => "windows", :size => "80GB" },
-    #{ :name => "Rev",     :ip => "192.168.56.132", :box => "mayfly/windows_server2019",  :os => "windows", :size => "80GB" },
+    { :name => "Rev",     :ip => "192.168.56.132", :box => "mayfly/windows_server2019",  :os => "windows", :size => "80GB" },
     { :name => "Victim",  :ip => "192.168.56.140", :box => "mayfly/windows10",           :os => "windows" }
   ]
 
@@ -81,7 +80,6 @@ Vagrant.configure("2") do |config|
         target.vm.communicator = "winrm"
                 
         target.vm.provision :shell, :path => "./Scripts/windows/Install-WMF3Hotfix.ps1", privileged: false
-        #target.vm.provision :shell, :path => "./Scripts/windows/Add-User-Mal.ps1", privileged: true
         target.vm.provision :shell, :path => "./Scripts/windows/ReArm.ps1", privileged: true
         target.vm.provision :shell, :path => "./Scripts/windows/Set-Locale.ps1", privileged: true
         
