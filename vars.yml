@@ -1,5 +1,5 @@
 # tz: 'Europe/Stockholm'
-user: christoffer
-pass: Serenity88
+user: user
+pass: password
 extra-tools:
   - ghidra
