@@ -1,5 +1,0 @@
-# tz: 'Europe/Stockholm'
-user: user
-pass: password
-extra-tools:
-  - ghidra
